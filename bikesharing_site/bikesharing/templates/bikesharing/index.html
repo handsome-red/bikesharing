@@ -1,16 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>{{ title }}</title>  <!-- Переменная из views.py -->
+        <title>{{ title }}</title>
 </head>
 <body>
-    <p >{{menu}}</p>
-    <p >{{float|add:"50"}}</p>
-    <p >{{lst}}</p>
-    <p >{{set}}</p>
-    <p >{{dict}}</p>
-    <p >{{obj}}</p>
-    <h1>{{title|capfirst}}</h1>
+<p >{{ menu|join:" | " }}</p>
+<h1>{{ title }}</h1>
+<ul>
+        {% for p in posts %}
+        {% if p.is_published %}
+        <li>
+                    <h2>{{ p.title }}</h2>
+                    <p >{{ p.content }}</p>
+                    {% if not forloop.last %}
+                    <hr>
+                    {% endif %}
+        </li>
+        {% endif %}
+        {% endfor %}
+</ul>
 </body>
 </html>
