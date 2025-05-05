@@ -1,9 +1,13 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.urls import reverse
+from django.template.loader import render_to_string
 
 def index(request):
     return render(request, 'bikesharing/index.html')
+
+def about(request):
+    return render(request, 'bikesharing/about.html')
 
 def station_detail(request, station_id):
     return HttpResponse(f"<h1>Bike Station Details</h1><p>ID: {station_id}</p>")
