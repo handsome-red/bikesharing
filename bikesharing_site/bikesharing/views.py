@@ -14,12 +14,12 @@ menu = [
 ]
 
 data_db = [
-    {'id': 1, 'title': 'Анджелина Джоли', 'content':
-        'Биография Анджелины Джоли', 'is_published': True},
-    {'id': 2, 'title': 'Марго Робби', 'content':
-        'Биография Марго Робби', 'is_published': False},
-    {'id': 3, 'title': 'Джулия Робертс', 'content':
-        'Биография Джулия Робертс', 'is_published': True},
+    {'id': 1, 'title': 'Спортивный велосипед', 'content':
+        'Miss-5100 MD', 'is_published': True},
+    {'id': 2, 'title': 'Скоростной велосипед', 'content':
+        'Navigator-590 V', 'is_published': False},
+    {'id': 3, 'title': 'Горный велосипед', 'content':
+        'Navigator-590 V', 'is_published': True},
 ]
 
 class MyClass:
@@ -38,7 +38,7 @@ def index(request):
     return render(request, 'bikesharing/index.html', context=data)
 
 def about(request):
-    return render(request, 'bikesharing/about.html',{'title': 'О сайте'})
+    return render(request, 'bikesharing/about.html',{'title': 'О сайте', 'menu': menu})
 
 def archive(request, year):
     if year > 2023:

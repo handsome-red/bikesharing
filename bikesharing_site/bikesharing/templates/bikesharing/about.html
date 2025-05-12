@@ -1,12 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>О сайте</title>
-</head>
-<body>
-    <h1>О нашем сервисе</h1>
-    <p>Мы предоставляем велосипеды в аренду по всему городу.</p>
-    <p >{{menu}}</p>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ title }}</h1>
+{% endblock %}

@@ -55,7 +55,9 @@ ROOT_URLCONF = 'bikesharing_site.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR / 'tamplates',
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
