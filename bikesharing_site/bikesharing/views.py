@@ -64,6 +64,12 @@ data_db = [
     }
 ]
 
+bike_db = [
+    {'id': 1, 'name': 'Тариф базовый'},
+    {'id': 2, 'name': 'Тариф универсальный'},
+    {'id': 3, 'name': 'Тариф премиум'},
+]
+
 class MyClass:
     def __init__(self, a, b):
         self.a = a
@@ -75,6 +81,7 @@ def index(request):
         'menu': menu,
         'posts': data_db,
         'obj': MyClass(10, 20),
+        'bike_selected': 0,
         # 'created_at': datetime.now(),  # Раскомментируйте, если нужно добавить дату
     }
     return render(request, 'bikesharing/index.html', context=data)
@@ -101,6 +108,17 @@ def login(request):
 
 def show_post(request, post_id):
     return HttpResponse(f"Отображение статьи с id = {post_id}")
+
+def show_category(request, bike_id):
+    data = {
+        'title': 'Главная страница',
+        'menu': menu,
+        'posts': data_db,
+        'obj': MyClass(10, 20),
+        'bike_selected': bike_id,
+        # 'created_at': datetime.now(),  # Раскомментируйте, если нужно добавить дату
+    }
+    return render(request, 'bikesharing/index.html', context=data)
 
 # def station_detail(request, station_id):
 #     return HttpResponse(f"<h1>Bike Station Details</h1><p>ID: {station_id}</p>")

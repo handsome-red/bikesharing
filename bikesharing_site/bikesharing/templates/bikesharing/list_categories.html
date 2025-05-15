@@ -1,0 +1,7 @@
+{% for bike in bikes %}
+{% if bike.id == bike_selected %}
+<li class="selected">{{bike.name}}</li>
+{% else %}
+<li><a href="{% url 'category' bike.id %}">{{bike.name}}</a></li>
+{% endif %}
+{% endfor %}
