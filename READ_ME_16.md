@@ -32,3 +32,6 @@ Inclusion Tags
 
 Изменение функции show_categories
 ![10](screen/16.10.png)
+
+Сайт с подсветкой ссылок
+![11](screen/16.11.png)
