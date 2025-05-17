@@ -9,12 +9,12 @@ from datetime import datetime
 menu = ["О сайте", "Добавить статью", "Обратная связь", "Войти"]
 
 data_db = [
-    {'id': 1, 'title': 'Анджелина Джоли', 'content':
-        'Биография Анджелины Джоли', 'is_published': True},
-    {'id': 2, 'title': 'Марго Робби', 'content':
-        'Биография Марго Робби', 'is_published': False},
-    {'id': 3, 'title': 'Джулия Робертс', 'content':
-        'Биография Джулия Робертс', 'is_published': True},
+    {'id': 1, 'title': 'Merida Reacto 6000', 'content':
+        'Велосипед Merida Reacto 6000', 'is_published': True},
+    {'id': 2, 'title': 'Merida Big Nine 300', 'content':
+        'Велосипед Merida Big Nine 300', 'is_published': False},
+    {'id': 3, 'title': 'Merida eSpresso Urban 500', 'content':
+        'Велосипед Merida eSpresso Urban 500', 'is_published': True},
 ]
 
 class MyClass:
