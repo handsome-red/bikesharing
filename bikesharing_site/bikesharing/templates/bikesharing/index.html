@@ -7,10 +7,21 @@
 <body>
     <p >{{menu}}</p>
     <p >{{float|add:"50"}}</p>
+    <p >{{float|divisibleby:"2"}}</p>
+    <p >{{menu|first}}</p>
+    <p >{{menu|last}}</p>
+    <p >{{menu|join:" | "}}</p>
+    <p >{{lst|length}}</p>
+    <p >{{"The Main Page"|slugify}}</p>
     <p >{{lst}}</p>
     <p >{{set}}</p>
     <p >{{dict}}</p>
     <p >{{obj}}</p>
     <h1>{{title|capfirst}}</h1>
+    <h1>{{title|upper}}</h1>
+    <h1>{{title|lower}}</h1>
+    <h1>{{title|cut:" "}}</h1>
+    <h1>{{title|cut:" "|cut:"а"}}</h1>
+    <title>{{main_title|default:"Без заголовка"}}</title>
 </body>
 </html>
