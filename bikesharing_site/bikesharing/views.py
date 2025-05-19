@@ -78,7 +78,7 @@ class MyClass:
         self.b = b
 
 def index(request):
-    posts = Bike.objects.filter(is_published=1)
+    posts = Bike.published.all()
     data = {
         'title': 'Главная страница',
         'menu': menu,
