@@ -1,9 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.urls import reverse
 from django.template.loader import render_to_string
 from django.template.defaultfilters import slugify
 from datetime import datetime
+
+from .models import Bike
 
 # Меню вынесено в глобальную переменную (как у вас в примере)
 menu = [
@@ -76,10 +78,11 @@ class MyClass:
         self.b = b
 
 def index(request):
+    posts = Bike.objects.filter(is_published=1)
     data = {
         'title': 'Главная страница',
         'menu': menu,
-        'posts': data_db,
+        'posts': posts,
         'obj': MyClass(10, 20),
         'bike_selected': 0,
         # 'created_at': datetime.now(),  # Раскомментируйте, если нужно добавить дату
@@ -106,8 +109,17 @@ def contact(request):
 def login(request):
     return HttpResponse("Авторизация")
 
-def show_post(request, post_id):
-    return HttpResponse(f"Отображение статьи с id = {post_id}")
+def show_post(request, post_slug):
+    post = get_object_or_404(Bike, slug=post_slug)
+
+    data = {
+        'title': post.title,
+        'menu': menu,
+        'post': post,
+        'cat_selected': 1,
+    }
+
+    return render(request, 'bikesharing/post.html', context=data)
 
 def show_category(request, bike_id):
     data = {
