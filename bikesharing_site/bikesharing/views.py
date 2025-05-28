@@ -1,3 +1,5 @@
+import uuid
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.urls import reverse
@@ -5,7 +7,8 @@ from django.template.loader import render_to_string
 from django.template.defaultfilters import slugify
 from datetime import datetime
 
-from .models import Bike
+from .forms import AddPostForm, UploadFileForm
+from .models import Bike, Category, TagPost, UploadFiles
 
 # Меню вынесено в глобальную переменную (как у вас в примере)
 menu = [
@@ -66,12 +69,6 @@ data_db = [
     }
 ]
 
-bike_db = [
-    {'id': 1, 'name': 'Тариф базовый'},
-    {'id': 2, 'name': 'Тариф универсальный'},
-    {'id': 3, 'name': 'Тариф премиум'},
-]
-
 class MyClass:
     def __init__(self, a, b):
         self.a = a
@@ -89,8 +86,34 @@ def index(request):
     }
     return render(request, 'bikesharing/index.html', context=data)
 
+
+# def handle_uploaded_file(f):
+#     name = f.name
+#     ext = ''
+#     if '.' in name:
+#         ext = name[name.rindex('.'):]  # Расширение файла
+#         name = name[:name.rindex('.')]  # Имя без расширения
+#     suffix = str(uuid.uuid4())  # Уникальный суффикс
+#     with open(f"uploads/{name}_{suffix}{ext}", "wb+") as destination:
+#         for chunk in f.chunks():
+#             destination.write(chunk)
+
+
 def about(request):
-    return render(request, 'bikesharing/about.html',{'title': 'О сайте', 'menu': menu})
+    if request.method == "POST":
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            # handle_uploaded_file(form.cleaned_data['file'])
+            fp = UploadFiles(file=form.cleaned_data['file'])
+            fp.save()
+    else:
+        form = UploadFileForm()
+
+    return render(request, 'bikesharing/about.html', {
+        'title': 'О сайте',
+        'menu': menu,
+        'form': form
+    })
 
 def archive(request, year):
     if year > 2023:
@@ -101,7 +124,21 @@ def page_not_found(request, exception):
     return HttpResponseNotFound('<h1>Bike Sharing Page Not Found</h1>')
 
 def addpage(request):
-    return HttpResponse("Добавление статьи")
+    if request.method == 'POST':
+        form = AddPostForm(request.POST, request.FILES)
+        if form.is_valid():
+            # print(form.cleaned_data)
+            try:
+                Bike.objects.create(**form.cleaned_data)
+                return redirect('home')
+            except:
+                form.add_error(None, 'Ошибка добавления поста')
+            # form.save()
+        return redirect('home')
+    else:
+        form = AddPostForm()
+
+    return render(request, 'bikesharing/addpage.html', {'menu': menu, 'title': 'Добавление статьи', 'form': form})
 
 def contact(request):
     return HttpResponse("Обратная связь")
@@ -121,14 +158,30 @@ def show_post(request, post_slug):
 
     return render(request, 'bikesharing/post.html', context=data)
 
-def show_category(request, bike_id):
+def show_category(request, bike_slug):
+    category = get_object_or_404(Category, slug=bike_slug)
+    posts = Bike.published.filter(bike_id=category.pk)
+
     data = {
-        'title': 'Главная страница',
+        'title': f'Рубрика: {category.name}',
         'menu': menu,
-        'posts': data_db,
+        'posts': posts,
         'obj': MyClass(10, 20),
-        'bike_selected': bike_id,
+        'bike_selected': category.pk,
         # 'created_at': datetime.now(),  # Раскомментируйте, если нужно добавить дату
+    }
+    return render(request, 'bikesharing/index.html', context=data)
+
+
+def show_tag_postlist(request, tag_slug):
+    tag = get_object_or_404(TagPost, slug=tag_slug)
+    posts = tag.bikes.filter(is_published=Bike.Status.PUBLISHED)
+
+    data = {
+        'title': f'Тег: {tag.tag}',
+        'menu': menu,
+        'posts': posts,
+        'cat_selected': None,
     }
     return render(request, 'bikesharing/index.html', context=data)
 

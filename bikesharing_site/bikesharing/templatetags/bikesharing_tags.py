@@ -1,13 +1,13 @@
 from django import template
-import bikesharing.views as views
+from ..models import Bike, Category, TagPost  # Используем относительные импорты
 
 register = template.Library()
 
-@register.simple_tag(name='getbikes')
-def get_categories():
-    return views.bike_db
-
 @register.inclusion_tag('bikesharing/list_categories.html')
 def show_categories(bike_selected=0):
-    bikes = views.bike_db
+    bikes = Category.objects.all()
     return {"bikes": bikes, 'bike_selected': bike_selected}
+
+@register.inclusion_tag('bikesharing/list_tags.html')
+def show_all_tags():
+    return {"tags": TagPost.objects.all()}
