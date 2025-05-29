@@ -1,7 +1,12 @@
 from django import template
 from ..models import Bike, Category, TagPost  # Используем относительные импорты
+from ..views import menu
 
 register = template.Library()
+
+@register.simple_tag
+def get_menu():
+    return menu
 
 @register.inclusion_tag('bikesharing/list_categories.html')
 def show_categories(bike_selected=0):

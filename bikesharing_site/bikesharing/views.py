@@ -1,5 +1,6 @@
 import uuid
 
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.urls import reverse
@@ -98,7 +99,7 @@ def index(request):
 #         for chunk in f.chunks():
 #             destination.write(chunk)
 
-
+@login_required
 def about(request):
     if request.method == "POST":
         form = UploadFileForm(request.POST, request.FILES)
