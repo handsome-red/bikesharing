@@ -1,6 +1,7 @@
 import uuid
 
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.urls import reverse
@@ -8,8 +9,11 @@ from django.template.loader import render_to_string
 from django.template.defaultfilters import slugify
 from datetime import datetime
 
+from django.views.generic import CreateView
+
 from .forms import AddPostForm, UploadFileForm
 from .models import Bike, Category, TagPost, UploadFiles
+from .utils import DataMixin
 
 # Меню вынесено в глобальную переменную (как у вас в примере)
 menu = [
@@ -115,6 +119,16 @@ def about(request):
         'menu': menu,
         'form': form
     })
+
+class AddPage(LoginRequiredMixin, DataMixin, CreateView):
+    form_class = AddPostForm
+    template_name = 'bikesharing/addpage.html'
+    title_page = 'Добавление статьи'
+
+    def form_valid(self, form):
+        w = form.save(commit=False)
+        w.author = self.request.user
+        return super().form_valid(form)
 
 def archive(request, year):
     if year > 2023:
