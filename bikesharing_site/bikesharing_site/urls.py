@@ -19,9 +19,12 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+from bikesharing.views import BikeHome
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('bikesharing.urls')),
+    path('', BikeHome.as_view(), name='home'),
     path('users/', include('users.urls', namespace="users")),
 ]
 

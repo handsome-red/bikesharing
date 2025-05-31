@@ -12,6 +12,7 @@ from django.contrib.auth.forms import AuthenticationForm
 
 from bikesharing_site import settings
 
+
 class LoginUser(LoginView):
     form_class = LoginUserForm
     template_name = 'users/login.html'
